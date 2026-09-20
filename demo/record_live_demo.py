@@ -24,17 +24,17 @@ with sync_playwright() as p:
 
     # 1. Switch region to ERCOT (Texas)
     print("Switching grid region to Texas (ERCOT)...")
-    page.select_option("#regionSelect", "ERCOT")
+    page.click("button[data-region='ERCOT']")
     time.sleep(4.5)
 
     # 2. Switch region to Great Britain (UK)
     print("Switching grid region to UK...")
-    page.select_option("#regionSelect", "UK")
+    page.click("button[data-region='UK']")
     time.sleep(4.0)
 
     # 3. Switch back to California (CAISO)
     print("Switching grid region back to California (CAISO)...")
-    page.select_option("#regionSelect", "CAISO")
+    page.click("button[data-region='CAISO']")
     time.sleep(4.0)
 
     # 4. Trigger Autonomous Carbon Dispatch
