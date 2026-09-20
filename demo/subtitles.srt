@@ -1,0 +1,51 @@
+1
+00:00:00,500 --> 00:00:08,500
+Hey everyone! Today, AI models, data centers, and cloud infrastructure consume hundreds of terawatt-hours of electricity every single year.
+
+2
+00:00:08,800 --> 00:00:21,500
+When developers kick off an LLM training run or batch inference without thinking, they are frequently pulling power during peak fossil-fuel grid hours, burning coal and gas.
+
+3
+00:00:21,800 --> 00:00:34,800
+Meanwhile, gigawatts of clean solar and wind energy are routinely wasted because demand isn't aligned with the grid.
+
+4
+00:00:35,500 --> 00:00:46,000
+That's why we built EcoDispatch AI: an autonomous, carbon-aware compute dispatcher engineered for the NextStep Hacks Earth Forward challenge.
+
+5
+00:00:46,200 --> 00:00:59,500
+It continuously monitors regional electrical grids in real time, forecasts renewable generation curves, and dynamically shifts heavy workloads into peak green energy windows.
+
+6
+00:01:00,200 --> 00:01:12,000
+Our core dispatch engine evaluates workload execution duration, cluster capacity limits, and strict developer deadlines.
+
+7
+00:01:12,200 --> 00:01:29,500
+Using polynomial constraint optimization, it schedules jobs right into the green valleys of California solar or Texas nocturnal wind, reducing operational carbon by up to sixty-eight percent, and issuing tamper-evident SHA-256 ESG audit certificates.
+
+8
+00:01:30,200 --> 00:01:38,500
+Now, let's watch our live production dashboard in action.
+
+9
+00:01:38,700 --> 00:01:49,500
+As we switch between regional electrical grids like CAISO and ERCOT, the dynamic twenty-four hour intensity curve recalculates in real time.
+
+10
+00:01:49,700 --> 00:02:01,200
+When we trigger the autonomous dispatcher, you can see workloads like LLM fine-tuning and diffusion rendering shifting automatically into high-solar hours, immediately cutting carbon emissions by fifty-five percent.
+
+11
+00:02:02,000 --> 00:02:11,500
+EcoDispatch AI is completely open-source, verified with an eight out of eight passing test suite, and deployed live right now on Vercel.
+
+12
+00:02:11,700 --> 00:02:20,000
+It proves that we don't have to choose between advancing artificial intelligence and protecting our planet.
+
+13
+00:02:20,200 --> 00:02:27,200
+Try it out today at ecodispatch-ai.vercel.app. Thank you!

@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ecodispatch-ai"
+version = "1.0.0"
+description = "Autonomous Carbon-Aware Workload & Renewable Energy Microgrid Dispatcher"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Naveen" }]
+dependencies = [
+    "pydantic>=2.0",
+    "rich>=13.0"
+]
+
+[project.scripts]
+ecodispatch = "ecodispatch.cli:main"

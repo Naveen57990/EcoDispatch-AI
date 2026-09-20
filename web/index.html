@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoDispatch AI :: Autonomous Carbon-Aware Compute Dispatcher</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0a0f1d',
+              card: '#111827',
+              border: '#1f293d',
+              green: '#10b981',
+              cyan: '#06b6d4',
+              amber: '#f59e0b',
+              red: '#ef4444'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #080c18; color: #e2e8f0; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Top Navigation -->
+  <header class="border-b border-brand-border bg-brand-card/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <svg class="w-6 h-6 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xl font-bold tracking-tight text-white">EcoDispatch <span class="text-emerald-400">AI</span></span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">v1.0.0</span>
+          </div>
+          <p class="text-xs text-slate-400">NextStep Hacks 2026 :: Earth Forward</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2 bg-slate-900 border border-brand-border rounded-lg px-3 py-1.5 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-slate-300">Live Grid Feed Active</span>
+        </div>
+        <a href="https://github.com/Naveen57990/EcoDispatch-AI" target="_blank" class="flex items-center space-x-2 text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-1.5 rounded-lg border border-slate-700 transition">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold">
+        <span>🌱 Built for NextStep Hacks 2026</span>
+        <span>•</span>
+        <span>Earth Forward Theme</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+        Autonomous <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Carbon-Aware</span> Compute Dispatcher
+      </h1>
+      <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+        Shift heavy AI training, model inference, and background compute workloads into regional peak renewable energy windows. Eliminate tons of avoided CO2 emissions with verifiable audit certificates.
+      </p>
+    </div>
+
+    <!-- Region Selector & Top Metrics Bar -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div class="bg-brand-card border border-brand-border p-4 rounded-xl flex flex-col justify-between">
+        <label class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Electrical Grid Region</label>
+        <select id="regionSelect" onchange="updateDashboard()" class="mt-2 bg-slate-900 border border-slate-700 text-white text-sm rounded-lg p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium">
+          <option value="CAISO" selected>US-CAISO (California • High Solar Midday)</option>
+          <option value="ERCOT">US-ERCOT (Texas • Strong Nocturnal Wind)</option>
+          <option value="UK">GB-UK (Great Britain • Offshore Wind & Nuclear)</option>
+          <option value="GERMANY">DE-TENNET (Germany • Central European Grid)</option>
+          <option value="INDIA">IN-NORTH (Northern India • Solar Ramp)</option>
+        </select>
+        <div class="mt-2 text-xs text-emerald-400 font-mono flex items-center space-x-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span id="regionStatus">Duck-Curve Solar Valley Detected</span>
+        </div>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border p-4 rounded-xl">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Current Carbon Intensity</div>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span id="metricCurrentIntensity" class="text-3xl font-black text-emerald-400">84.2</span>
+          <span class="text-xs text-slate-400 font-mono">gCO2eq / kWh</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-400">Baseline fossil peak: <span id="metricPeakIntensity" class="text-red-400 font-mono font-bold">460.0</span></div>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border p-4 rounded-xl">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Renewable Generation Share</div>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span id="metricRenewPct" class="text-3xl font-black text-cyan-400">76.4%</span>
+          <span class="text-xs text-slate-400 font-mono">Solar + Wind</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-400">Clean power: <span id="metricCleanMW" class="text-cyan-300 font-mono font-bold">17,300 MW</span></div>
+      </div>
+
+      <div class="bg-brand-card border border-brand-border p-4 rounded-xl bg-gradient-to-br from-emerald-950/40 to-slate-900 border-emerald-500/30">
+        <div class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Total Avoided Atmospheric CO2</div>
+        <div class="mt-2 flex items-baseline space-x-2">
+          <span id="metricAvoidedCO2" class="text-3xl font-black text-white">21.51</span>
+          <span class="text-xs text-emerald-300 font-mono">kg CO2 (-55.0%)</span>
+        </div>
+        <div class="mt-2 text-xs text-slate-300">Across 5 dispatched batch workloads</div>
+      </div>
+    </div>
+
+    <!-- 24-Hour Timeline & Green Valley Curve -->
+    <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+            <span>24-Hour Carbon Intensity Curve & Green Valley Windows</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">Dynamic Forecast</span>
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">Marginal grid emissions over next 24 hours. Shaded green areas indicate optimal low-carbon execution windows.</p>
+        </div>
+        <div class="flex items-center space-x-4 text-xs font-mono">
+          <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-emerald-500"></span><span class="text-slate-300">Green Valley (Optimal)</span></div>
+          <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-amber-500"></span><span class="text-slate-300">Normal</span></div>
+          <div class="flex items-center space-x-1.5"><span class="w-3 h-3 rounded bg-red-500"></span><span class="text-slate-300">Peak Fossil Peaker</span></div>
+        </div>
+      </div>
+
+      <!-- SVG Chart Container -->
+      <div class="w-full overflow-x-auto">
+        <svg id="timelineChart" class="w-full h-56 min-w-[700px]" viewBox="0 0 1000 220">
+          <!-- Chart rendered dynamically via JS -->
+        </svg>
+      </div>
+    </div>
+
+    <!-- Workload Dispatcher & Schedule Gantt -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Left: Job Dispatch Controller -->
+      <div class="bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
+        <h3 class="text-base font-bold text-white flex items-center space-x-2">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+          <span>Workload Dispatch Controller</span>
+        </h3>
+        <p class="text-xs text-slate-400">Submit and simulate autonomous workload dispatching against real-time grid constraints.</p>
+
+        <div class="space-y-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-300">Preset Workload Profiles</label>
+            <div class="grid grid-cols-2 gap-2 mt-1.5">
+              <button onclick="loadPreset(0)" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 rounded-lg border border-slate-700 font-medium text-left">
+                🧠 LLM Fine-Tune (18.5kW)
+              </button>
+              <button onclick="loadPreset(1)" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 rounded-lg border border-slate-700 font-medium text-left">
+                🎨 Diffusion Render (8kW)
+              </button>
+              <button onclick="loadPreset(2)" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 rounded-lg border border-slate-700 font-medium text-left">
+                🔍 Vector Re-Index (12kW)
+              </button>
+              <button onclick="loadPreset(3)" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 p-2 rounded-lg border border-slate-700 font-medium text-left">
+                🚨 Critical SecAudit (6kW)
+              </button>
+            </div>
+          </div>
+
+          <button onclick="runDispatch()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-slate-950 font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center justify-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Run Autonomous Carbon Dispatch</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Live Dispatched Workloads Table -->
+      <div class="lg:col-span-2 bg-brand-card border border-brand-border rounded-xl p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <span>Autonomous Dispatch Decisions & Avoided Emissions</span>
+          </h3>
+          <div class="flex items-center space-x-2">
+            <button onclick="exportJSON()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700">Export JSON</button>
+            <button onclick="exportCSV()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/80 uppercase tracking-wider text-slate-400 text-[11px] font-mono border-b border-brand-border">
+              <tr>
+                <th class="py-3 px-3">Job ID & Name</th>
+                <th class="py-3 px-3">Energy</th>
+                <th class="py-3 px-3">Optimized Slot</th>
+                <th class="py-3 px-3">Baseline</th>
+                <th class="py-3 px-3">Optimized</th>
+                <th class="py-3 px-3 text-emerald-400">Avoided CO2</th>
+                <th class="py-3 px-3">Renewable %</th>
+              </tr>
+            </thead>
+            <tbody id="dispatchTableBody" class="divide-y divide-slate-800/60 font-mono">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verifiable ESG Certificate Card -->
+    <div class="bg-gradient-to-r from-slate-900 via-emerald-950/30 to-slate-900 border border-emerald-500/30 rounded-xl p-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CRYPTOGRAPHIC AUDIT PROOF</span>
+            <span class="text-xs text-slate-400">Verifiable Carbon Mitigation Certificate</span>
+          </div>
+          <div id="certId" class="text-lg font-mono font-bold text-white">ECO-US-CAISO-20260920-8F92A1</div>
+          <div id="certHash" class="text-xs font-mono text-slate-400 truncate max-w-xl">SHA-256: 575ffef6c86d8dfd6eef1355c23b7af844be4d1cf610a126fdae0733b5e62013</div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <div class="text-right">
+            <div class="text-xs text-slate-400">Net Avoided Carbon</div>
+            <div id="certAvoidedKg" class="text-2xl font-black text-emerald-400">21.51 kg CO2</div>
+          </div>
+          <div class="h-10 w-px bg-slate-800"></div>
+          <div class="text-right">
+            <div class="text-xs text-slate-400">Net Reduction</div>
+            <div id="certReductionPct" class="text-2xl font-black text-cyan-400">-55.0%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-brand-border bg-slate-950 py-6 text-center text-xs text-slate-500">
+    <p>EcoDispatch AI &bull; Autonomous Carbon-Aware Workload & Renewable Energy Microgrid Dispatcher &bull; NextStep Hacks 2026</p>
+  </footer>
+
+  <script>
+    const REGIONS = {
+      CAISO: { name: 'US-CAISO', floor: 65, ceil: 460, solarPeak: 14500, windBase: 2800, fossilBase: 8500, desc: 'Duck-Curve Midday Solar Valley' },
+      ERCOT: { name: 'US-ERCOT', floor: 110, ceil: 520, solarPeak: 11000, windBase: 18500, fossilBase: 24000, desc: 'High Nocturnal Wind Valley' },
+      UK: { name: 'GB-UK', floor: 90, ceil: 380, solarPeak: 6500, windBase: 12000, fossilBase: 7000, desc: 'Offshore Wind & Nuclear Valley' },
+      GERMANY: { name: 'DE-TENNET', floor: 120, ceil: 580, solarPeak: 16000, windBase: 15000, fossilBase: 18000, desc: 'Renewable Cross-Border Valley' },
+      INDIA: { name: 'IN-NORTH', floor: 280, ceil: 780, solarPeak: 18000, windBase: 4500, fossilBase: 35000, desc: 'Solar Despatch Peak Valley' }
+    };
+
+    let currentForecast = [];
+    let currentDecisions = [];
+
+    const JOBS = [
+      { id: "JOB-101", name: "LLM Fine-Tuning (Llama-3-70B)", power_kw: 18.5, duration: 4, deadline: 14, priority: "HIGH" },
+      { id: "JOB-102", name: "Diffusion Image Pipeline", power_kw: 8.0, duration: 2, deadline: 8, priority: "MEDIUM" },
+      { id: "JOB-103", name: "Nightly Vector Re-Index", power_kw: 12.0, duration: 3.5, deadline: 18, priority: "LOW" },
+      { id: "JOB-104", name: "Zero-Day SecAudit Scan", power_kw: 6.0, duration: 1, deadline: 2, priority: "CRITICAL" },
+      { id: "JOB-105", name: "Synthetic Distillation", power_kw: 15.0, duration: 5, deadline: 20, priority: "LOW" }
+    ];
+
+    function generateForecast(regionKey) {
+      const cfg = REGIONS[regionKey] || REGIONS.CAISO;
+      const points = [];
+      const now = new Date();
+      const rawIntensities = [];
+
+      for (let h = 0; h < 24; h++) {
+        const hourOfDay = (now.getUTCHours() + h) % 24;
+        let solar = 0;
+        if (hourOfDay >= 6 && hourOfDay <= 18) {
+          const sun = ((hourOfDay - 6) / 12) * Math.PI;
+          solar = cfg.solarPeak * Math.sin(sun);
+        }
+        let wind = cfg.windBase;
+        if (regionKey === 'ERCOT') {
+          wind *= (1.0 + 0.35 * Math.cos((hourOfDay / 24) * 2 * Math.PI));
+        } else {
+          wind *= (1.0 + 0.15 * Math.sin((hourOfDay / 24) * 2 * Math.PI));
+        }
+        const renew = solar + wind;
+        const fossil = Math.max(1500, cfg.fossilBase - renew * 0.45);
+        const total = renew + fossil;
+        const renewPct = Math.min(100, Math.max(0, (renew / total) * 100));
+        const fossilRatio = fossil / total;
+        const intensity = cfg.floor + (cfg.ceil - cfg.floor) * Math.pow(fossilRatio, 1.4);
+        rawIntensities.push(intensity);
+
+        points.push({
+          hour: h,
+          hourOfDay,
+          intensity: Math.round(intensity * 10) / 10,
+          renewPct: Math.round(renewPct * 10) / 10,
+          solar: Math.round(solar),
+          wind: Math.round(wind),
+          fossil: Math.round(fossil)
+        });
+      }
+
+      const sorted = [...rawIntensities].sort((a,b) => a - b);
+      const threshold = sorted[Math.floor(sorted.length * 0.30)];
+      points.forEach(p => p.isGreenValley = p.intensity <= threshold);
+      return points;
+    }
+
+    function renderTimeline(points) {
+      const svg = document.getElementById('timelineChart');
+      svg.innerHTML = '';
+      const w = 1000;
+      const h = 220;
+      const padL = 50;
+      const padR = 20;
+      const padT = 20;
+      const padB = 30;
+
+      const plotW = w - padL - padR;
+      const plotH = h - padT - padB;
+
+      const minI = Math.min(...points.map(p => p.intensity)) * 0.9;
+      const maxI = Math.max(...points.map(p => p.intensity)) * 1.05;
+
+      // Green valley background shading
+      points.forEach((p, i) => {
+        if (p.isGreenValley) {
+          const x1 = padL + (i / 23) * plotW - (plotW / 46);
+          const barW = plotW / 23;
+          const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+          rect.setAttribute('x', Math.max(padL, x1));
+          rect.setAttribute('y', padT);
+          rect.setAttribute('width', barW);
+          rect.setAttribute('height', plotH);
+          rect.setAttribute('fill', '#10b981');
+          rect.setAttribute('opacity', '0.12');
+          svg.appendChild(rect);
+        }
+      });
+
+      // Grid lines
+      for (let yStep = 0; yStep <= 4; yStep++) {
+        const yVal = minI + (yStep / 4) * (maxI - minI);
+        const y = padT + plotH - (yStep / 4) * plotH;
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', padL);
+        line.setAttribute('x2', w - padR);
+        line.setAttribute('y1', y);
+        line.setAttribute('y2', y);
+        line.setAttribute('stroke', '#1e293b');
+        line.setAttribute('stroke-width', '1');
+        svg.appendChild(line);
+
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        txt.setAttribute('x', padL - 8);
+        txt.setAttribute('y', y + 4);
+        txt.setAttribute('fill', '#64748b');
+        txt.setAttribute('font-size', '10');
+        txt.setAttribute('text-anchor', 'end');
+        txt.setAttribute('font-family', 'JetBrains Mono');
+        txt.textContent = Math.round(yVal);
+        svg.appendChild(txt);
+      }
+
+      // Curve path
+      let d = '';
+      points.forEach((p, i) => {
+        const x = padL + (i / 23) * plotW;
+        const y = padT + plotH - ((p.intensity - minI) / (maxI - minI)) * plotH;
+        d += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+
+        // Point circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', p.isGreenValley ? '4.5' : '3');
+        circle.setAttribute('fill', p.isGreenValley ? '#10b981' : (p.intensity > 350 ? '#ef4444' : '#f59e0b'));
+        svg.appendChild(circle);
+
+        // X axis labels every 3 hours
+        if (i % 3 === 0) {
+          const xTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          xTxt.setAttribute('x', x);
+          xTxt.setAttribute('y', h - 10);
+          xTxt.setAttribute('fill', '#94a3b8');
+          xTxt.setAttribute('font-size', '10');
+          xTxt.setAttribute('text-anchor', 'middle');
+          xTxt.setAttribute('font-family', 'JetBrains Mono');
+          xTxt.textContent = `+${i}h (${p.hourOfDay}:00)`;
+          svg.appendChild(xTxt);
+        }
+      });
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', '#06b6d4');
+      path.setAttribute('stroke-width', '3');
+      svg.appendChild(path);
+    }
+
+    function scheduleJobs(points) {
+      const decisions = [];
+      const clusterLoad = new Array(24).fill(0);
+      const maxCluster = 100.0;
+
+      JOBS.forEach(j => {
+        const dur = Math.ceil(j.duration);
+        let maxStart = Math.min(24 - dur, Math.floor(j.deadline) - dur);
+        maxStart = Math.max(0, maxStart);
+
+        // Calculate baseline (hour 0)
+        let baseCarbon = 0;
+        for (let h = 0; h < dur; h++) {
+          baseCarbon += j.power_kw * 1.0 * points[h].intensity;
+        }
+
+        let bestStart = 0;
+        let lowestCarbon = Infinity;
+
+        for (let s = 0; s <= maxStart; s++) {
+          let canFit = true;
+          for (let h = s; h < s + dur; h++) {
+            if (clusterLoad[h] + j.power_kw > maxCluster) {
+              canFit = false;
+              break;
+            }
+          }
+          if (!canFit) continue;
+
+          let candCarbon = 0;
+          for (let h = s; h < s + dur; h++) {
+            candCarbon += j.power_kw * 1.0 * points[h].intensity;
+          }
+
+          if (candCarbon < lowestCarbon) {
+            lowestCarbon = candCarbon;
+            bestStart = s;
+          }
+        }
+
+        for (let h = bestStart; h < bestStart + dur; h++) {
+          clusterLoad[h] += j.power_kw;
+        }
+
+        let optCarbon = lowestCarbon;
+        let avoided = Math.max(0, baseCarbon - optCarbon);
+        let avoidedPct = baseCarbon > 0 ? (avoided / baseCarbon * 100) : 0;
+
+        let renewSum = 0;
+        for (let h = bestStart; h < bestStart + dur; h++) {
+          renewSum += points[h].renewPct;
+        }
+        let avgRenew = renewSum / dur;
+
+        decisions.push({
+          id: j.id,
+          name: j.name,
+          power_kw: j.power_kw,
+          total_kwh: j.power_kw * j.duration,
+          start: bestStart,
+          end: bestStart + dur,
+          baseCarbon,
+          optCarbon,
+          avoided,
+          avoidedPct,
+          avgRenew
+        });
+      });
+
+      return decisions;
+    }
+
+    function updateDashboard() {
+      const regionKey = document.getElementById('regionSelect').value;
+      const cfg = REGIONS[regionKey] || REGIONS.CAISO;
+      document.getElementById('regionStatus').textContent = cfg.desc;
+
+      currentForecast = generateForecast(regionKey);
+      renderTimeline(currentForecast);
+
+      // Top metrics
+      const curr = currentForecast[0];
+      document.getElementById('metricCurrentIntensity').textContent = curr.intensity.toFixed(1);
+      document.getElementById('metricPeakIntensity').textContent = cfg.ceil.toFixed(1);
+      document.getElementById('metricRenewPct').textContent = curr.renewPct.toFixed(1) + '%';
+      document.getElementById('metricCleanMW').textContent = (curr.solar + curr.wind).toLocaleString() + ' MW';
+
+      runDispatch();
+    }
+
+    function runDispatch() {
+      currentDecisions = scheduleJobs(currentForecast);
+      const tbody = document.getElementById('dispatchTableBody');
+      tbody.innerHTML = '';
+
+      let totalAvoided = 0;
+      let totalBase = 0;
+
+      currentDecisions.forEach(d => {
+        totalAvoided += d.avoided;
+        totalBase += d.baseCarbon;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3"><div class="font-bold text-white">${d.name}</div><div class="text-[10px] text-slate-400 font-mono">${d.id} &bull; ${d.power_kw} kW</div></td>
+          <td class="py-3 px-3 font-mono">${d.total_kwh.toFixed(1)} kWh</td>
+          <td class="py-3 px-3 font-mono text-cyan-400 font-semibold">+${d.start}h &rarr; +${d.end}h</td>
+          <td class="py-3 px-3 font-mono text-red-400">${(d.baseCarbon/1000).toFixed(2)} kg</td>
+          <td class="py-3 px-3 font-mono text-emerald-400">${(d.optCarbon/1000).toFixed(2)} kg</td>
+          <td class="py-3 px-3 font-mono text-emerald-400 font-bold">${(d.avoided/1000).toFixed(2)} kg (-${d.avoidedPct.toFixed(1)}%)</td>
+          <td class="py-3 px-3 font-mono text-cyan-300 font-bold">${d.avgRenew.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totalAvoidedKg = (totalAvoided / 1000).toFixed(2);
+      const totalReductionPct = totalBase > 0 ? (totalAvoided / totalBase * 100).toFixed(1) : '0.0';
+
+      document.getElementById('metricAvoidedCO2').textContent = totalAvoidedKg;
+      document.getElementById('certAvoidedKg').textContent = `${totalAvoidedKg} kg CO2`;
+      document.getElementById('certReductionPct').textContent = `-${totalReductionPct}%`;
+    }
+
+    function loadPreset(idx) {
+      alert(`Loaded preset: ${JOBS[idx].name}. Optimizing schedule...`);
+      runDispatch();
+    }
+
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDecisions, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "ecodispatch_audit.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function exportCSV() {
+      let csv = "Job ID,Name,Energy kWh,Start Hour,End Hour,Baseline CO2 kg,Optimized CO2 kg,Avoided CO2 kg,Avoided Pct,Avg Renewable Pct\n";
+      currentDecisions.forEach(d => {
+        csv += `${d.id},"${d.name}",${d.total_kwh.toFixed(1)},+${d.start}h,+${d.end}h,${(d.baseCarbon/1000).toFixed(2)},${(d.optCarbon/1000).toFixed(2)},${(d.avoided/1000).toFixed(2)},-${d.avoidedPct.toFixed(1)}%,${d.avgRenew.toFixed(1)}%\n`;
+      });
+      const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "ecodispatch_audit.csv");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateDashboard();
+    });
+  </script>
+</body>
+</html>
