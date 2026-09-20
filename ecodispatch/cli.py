@@ -72,24 +72,46 @@ def show_grid(region_name: str = "US-CAISO"):
 
     console.print(table)
 
-def dispatch_jobs(region_name: str = "US-CAISO"):
+def dispatch_jobs(
+    region_name: str = "US-CAISO",
+    job_name: str = None,
+    kwh: float = None,
+    duration: int = 2,
+    deadline: int = 12,
+    export_json: str = None,
+    export_csv: str = None
+):
     region = next((r for r in GridRegion if r.value == region_name or r.name.lower() == region_name.lower()), GridRegion.CAISO)
     engine = GridEngine(region)
     forecast = engine.generate_24h_forecast()
 
+    if job_name and kwh:
+        dur = max(float(duration), 1.0)
+        job = ComputeJob(
+            id="JOB-CUST",
+            name=job_name,
+            compute_power_kw=round(kwh / dur, 2),
+            duration_hours=dur,
+            deadline_hours=max(float(deadline), dur),
+            priority=JobPriority.HIGH
+        )
+        jobs_to_schedule = [job]
+    else:
+        jobs_to_schedule = SAMPLE_JOBS
+
     scheduler = CarbonScheduler(region, forecast, max_cluster_kw=100.0)
-    decisions = scheduler.schedule_batch(SAMPLE_JOBS)
+    decisions = scheduler.schedule_batch(jobs_to_schedule)
 
     console.print(Panel(
         f"[bold green]ECODISPATCH AI :: AUTONOMOUS CARBON DISPATCH EXECUTION[/bold green]\n"
-        f"[cyan]Optimized Cluster Capacity:[/cyan] 100 kW | [cyan]Active Queue:[/cyan] {len(SAMPLE_JOBS)} Workloads",
+        f"[cyan]Grid Region:[/cyan] {region.value} | [cyan]Optimized Cluster Capacity:[/cyan] 100 kW | [cyan]Active Queue:[/cyan] {len(jobs_to_schedule)} Workload(s)",
         border_style="green"
     ))
 
     table = Table(title="Autonomous Workload Schedule & Avoided Carbon Analysis", border_style="cyan")
     table.add_column("Job ID", style="bold")
     table.add_column("Workload Name", style="white")
-    table.add_column("Power", justify="right", style="dim")
+    table.add_column("Energy", justify="right", style="dim")
     table.add_column("Scheduled Window", justify="center", style="bold cyan")
     table.add_column("Baseline CO2", justify="right", style="red")
     table.add_column("Optimized CO2", justify="right", style="green")
@@ -126,6 +148,15 @@ def dispatch_jobs(region_name: str = "US-CAISO"):
     )
     console.print(Panel(cert_card, border_style="bold green", expand=False))
 
+    if export_json:
+        with open(export_json, "w") as f:
+            f.write(cert.model_dump_json(indent=2))
+        console.print(f"[bold green]✓ Audit certificate exported to JSON:[/bold green] {export_json}")
+
+    if export_csv:
+        accounting.export_csv(decisions, export_csv)
+        console.print(f"[bold green]✓ Dispatch breakdown exported to CSV:[/bold green] {export_csv}")
+
 def main():
     parser = argparse.ArgumentParser(description="EcoDispatch AI: Autonomous Carbon-Aware Compute Scheduler")
     subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
@@ -135,13 +166,27 @@ def main():
 
     dispatch_p = subparsers.add_parser("dispatch", help="Run autonomous carbon-aware workload dispatch")
     dispatch_p.add_argument("--region", default="US-CAISO", help="Grid region")
+    dispatch_p.add_argument("--job", help="Custom workload name (e.g. 'Llama3-70B-FineTune')")
+    dispatch_p.add_argument("--kwh", type=float, help="Total energy consumption in kWh")
+    dispatch_p.add_argument("--duration", type=int, default=2, help="Execution duration in hours (default: 2)")
+    dispatch_p.add_argument("--deadline", type=int, default=12, help="Maximum completion deadline in hours from now (default: 12)")
+    dispatch_p.add_argument("--export-json", help="Export verifiable certificate to JSON file path")
+    dispatch_p.add_argument("--export-csv", help="Export dispatch schedule to CSV file path")
 
     args = parser.parse_args()
 
     if args.command == "grid":
         show_grid(args.region)
     elif args.command == "dispatch" or args.command is None:
-        dispatch_jobs(getattr(args, "region", "US-CAISO"))
+        dispatch_jobs(
+            region_name=getattr(args, "region", "US-CAISO"),
+            job_name=getattr(args, "job", None),
+            kwh=getattr(args, "kwh", None),
+            duration=getattr(args, "duration", 2),
+            deadline=getattr(args, "deadline", 12),
+            export_json=getattr(args, "export_json", None),
+            export_csv=getattr(args, "export_csv", None)
+        )
 
 if __name__ == "__main__":
     main()
